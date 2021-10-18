@@ -16,12 +16,21 @@ class Game:
                 if start[i][j] == '\u25a1':
                     self.coords = [i, j]
         self.size = len(start[0])
+        # self.solution = [str(i) for i in range(1, self.size+1)]
+        self.solution = []
+        self.__init_solution()
+       
+
+    def __init_solution(self):
+        for i in range(1, self.size+1):
+            self.solution.append([str(j + self.size*(i-1)) for j in range(1, self.size+1)]) 
+        self.solution[self.size-1][self.size-1] = '\u25a1'  
 
     
     def print(self, debug: bool = False): 
         for i in self.game_state:
             print(i[0], i[1], i[2], sep=' ', end='\n')
-
+        print('')
         if debug: 
             print("Empty space is in: Row " + str(self.coords[0]), "Column " + str(self.coords[1]), sep='  ')
     
@@ -45,11 +54,11 @@ class Game:
 
 
     def check_solution(self):
-        return self.game_state == [['1', '2', '3'], ['4', '5', '6'], ['7', '8', '\u25a1']]
+        return self.game_state == self.solution
 
 
 if __name__ == "__main__": 
-    user_input = [['1', '2', '3'], ['4', '5', '6'], ['7', '\u25a1', '8']]
+    user_input = [['1', '2', '3', '4'], ['5', '6', '7', '8'], ['9', '\u25a1', '11', '12'], ['13', '14', '15', '16']]
     x = Game(user_input)
     x.print()
     x.move(Direction.LEFT)
@@ -57,4 +66,6 @@ if __name__ == "__main__":
     x.move(Direction.UP)
     x.print()
     print(x.check_solution())
+    print(x.solution)
+    print(x.game_state)
     
