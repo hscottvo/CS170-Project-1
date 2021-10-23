@@ -5,6 +5,7 @@ def manhattan_dist(point_a, point_b):
 
 
 def contains_key(dict: dictionary, key: str):
+    # TODO: Try using sets instead of dictionaries, since we don't actually use the values at all
     if key in dict:
         return True
     else:
