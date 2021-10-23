@@ -4,7 +4,9 @@ from copy import deepcopy
 
 class Game:
     def __init__(self, start): 
+        self.start_state = start
         self.game_state = start
+        self.path = []
         self.coords = []
         self.__init_coords()
         self.size = len(start[0])
@@ -32,10 +34,29 @@ class Game:
             for j in i: 
                 print(j + ' '*((self.max_val // 10 + 2) - len(j)), end='')
             print('')
-        print('')
         if debug: 
             print("Empty space is in: Row " + str(self.coords[0]), "Column " + str(self.coords[1]), sep='  ')
+
     
+    def print_initial(self): 
+        for i in self.start_state:
+            for j in i: 
+                print(j + ' '*((self.max_val // 10 + 2) - len(j)), end='')
+            print('')
+    
+
+    def print_path(self):
+        print('_' * 20)
+        print("Starting State: " )
+        self.print_initial()
+        print('_' * 20)
+        print("Current State: ")
+        self.print()
+        print('_' * 20)
+        print("Path Taken (movement directions of the empty spot): ")
+        print(self.path)
+        print('_' * 20)
+
 
     def can_move(self, dir: Enum):
         return (dir == Direction.UP and self.coords[0] > 0) or (dir == Direction.DOWN and self.coords[0] < self.size - 1) or \
@@ -47,12 +68,14 @@ class Game:
             dir.name + " when coordinates are: " + \
             str(self.coords) # denominator can't be 0
         self.__switch(self.coords, [sum(x) for x in zip(self.coords, dir.value)])
-        pass
 
 
     def copy_move(self, dir:Enum):
         new_game = Game(self.__copy_string())
         new_game.move(dir)
+        new_game.start_state = self.start_state
+        new_game.path = self.path
+        new_game.path.append(dir.name)
         return new_game
 
 
@@ -98,6 +121,7 @@ class Game:
         return self.game_state == self.solution
 
 
+
 if __name__ == "__main__": 
     user_input = [['1', '2', '3', '4'], ['5', '6', '7', '8'], ['9', '10', '11', '12'], ['13', '14', '15', '\u25a1']]
     x = Game(user_input)
@@ -105,8 +129,7 @@ if __name__ == "__main__":
     x.move(Direction.LEFT)
     x.move(Direction.LEFT)
     y = x.copy_move(Direction.RIGHT)
-    x.print()
-    y.print()
-    print(x.string())
+    z = y.copy_move(Direction.UP)
+    z.print_path()
 
     
