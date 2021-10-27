@@ -8,7 +8,6 @@ timeout_time = 5
 
 
 def uniform_cost_search(game: Game):
-    """this is what the function does :^)"""
     start_time = time()
     print("Using uniform cost search:")
     move_queue = Queue()
