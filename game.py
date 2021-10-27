@@ -55,6 +55,7 @@ class Game:
         print('_' * 20)
         print("Path Taken (movement directions of the empty spot): ")
         print(self.path)
+        print(f'{len(self.path)} move(s)')
         print('_' * 20)
 
 
@@ -74,7 +75,7 @@ class Game:
         new_game = Game(self.__copy_string(), self.empty)
         new_game.move(dir)
         new_game.start_state = self.start_state
-        new_game.path = self.path
+        new_game.path = (self.path).copy()
         new_game.path.append(dir.name)
         return new_game
 
