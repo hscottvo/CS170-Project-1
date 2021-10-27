@@ -2,10 +2,12 @@ from dataclasses import dataclass, field
 from typing import Any
 from enum import Enum
 
+
 def manhattan_dist(point_a, point_b):
     return (abs(point_a[0] - point_b[0]) + abs(point_a[1] - point_b[1]))
 
 
+# https://stackoverflow.com/questions/66448588/is-there-a-way-to-make-a-priority-queue-sort-by-the-priority-value-in-a-tuple-on?noredirect=1&lq=1
 @dataclass(order=True)
 class PrioGame:
     priority: int
