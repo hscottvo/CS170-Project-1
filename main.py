@@ -4,8 +4,12 @@ from heapq import heapify, heappush, heappop
 from util import Direction, PrioGame
 from time import time
 
+timeout_time = 5
+
 
 def uniform_cost_search(game: Game):
+    """this is what the function does :^)"""
+    start_time = time()
     print("Using uniform cost search:")
     move_queue = Queue()
     move_queue.put(game)
@@ -22,6 +26,9 @@ def uniform_cost_search(game: Game):
                     dupes.add(move_game.string())
             except:
                 pass
+        if time() - start_time > timeout_time:
+            print(f"TIMEOUT: {timeout_time} seconds")
+            quit()
 
     print("ERROR: Unsolvable Puzzle")
     quit()
@@ -29,6 +36,7 @@ def uniform_cost_search(game: Game):
 
 def misplaced_tile_search(game: Game):
     print("Using misplaced tile A-star:")
+    start_time = time()
     move_queue = PriorityQueue()
     move_queue.put(PrioGame(game.misplaced_tile_heuristic(), game))
     dupes = {game.string()}
@@ -45,12 +53,16 @@ def misplaced_tile_search(game: Game):
                     dupes.add(move_game.string())
             except:
                 pass
+        if time() - start_time > timeout_time:
+                print(f"TIMEOUT: {timeout_time} seconds")
+                quit()
     print("ERROR: Unsolvable Puzzle")
     quit()
   
 
 def manhattan_search(game: Game):
     print("Using Manhattan Distance A-star:")
+    start_time = time()
     move_queue = PriorityQueue()
     move_queue.put(PrioGame(game.manhattan_heuristic(), game))
     dupes = {game.string()}
@@ -67,11 +79,15 @@ def manhattan_search(game: Game):
                     dupes.add(move_game.string())
             except:
                 pass
+        if time() - start_time > timeout_time:
+            print(f"TIMEOUT: {timeout_time} seconds")
+            quit()
     print("ERROR: Unsolvable Puzzle")
     quit()
 
 
 if __name__=='__main__':
+
     # depth 0: uniform (0.0003 seconds)
     # game = Game([['1', '2', '3'], ['4', '5', '6'], ['7', '8', '\u25a1']], empty='\u25a1')
 
@@ -101,12 +117,16 @@ if __name__=='__main__':
 
     
     start_time = time()
-    # solved_game = uniform_cost_search(game)
+    solved_game = uniform_cost_search(game)
+    p1 = Process(target=uniform_cost_search, args=(game,))
+    p1.start()
+
     # solved_game = misplaced_tile_search(game)
-    solved_game = manhattan_search(game)
+    # solved_game = manhattan_search(game)
     run_time = time() - start_time
     solved_game.print_path()
     
     print(f"Took {run_time} seconds")
+
 
     
