@@ -99,10 +99,10 @@ class Game:
                     item_num = int(item)
                     sol_pos = ((item_num-1)//self.size, (item_num-1)%self.size)
                     ret += manhattan_dist(sol_pos, curr_pos)
-        return ret
+        return ret + len(self.path)
 
 
-    def misplaced_tile_hueristic(self):
+    def misplaced_tile_heuristic(self):
         ret = 0
         for i, row in enumerate(self.game_state):
             for j, item in enumerate(row):
@@ -111,7 +111,7 @@ class Game:
                     curr_val = int(item)
                     if sol_val != curr_val:
                         ret += 1
-        return ret
+        return ret + len(self.path)
 
 
     def string(self):
@@ -132,6 +132,8 @@ if __name__ == "__main__":
     x.move(Direction.LEFT)
     y = x.copy_move(Direction.RIGHT)
     z = y.copy_move(Direction.UP)
-    z.print_path()
+    z.print()
 
-    
+
+
+
