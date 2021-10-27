@@ -67,7 +67,8 @@ def manhattan_search(game: Game):
                     dupes.add(move_game.string())
             except:
                 pass
-    return game
+    print("ERROR: Unsolvable Puzzle")
+    quit()
 
 
 if __name__=='__main__':
