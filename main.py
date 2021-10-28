@@ -2,8 +2,24 @@ from game import Game
 from queue import Queue, PriorityQueue
 from util import Direction, PrioGame
 from time import time
+from random import randint
 
 timeout_time = 5
+direction_enum = list(Direction)
+
+
+def random_puzzle(size: int, empty: str, moves: int) -> Game:
+    solution = []
+    for i in range(1, size+1):
+        solution.append([str(j + size*(i-1)) for j in range(1, size+1)]) 
+    solution[size-1][size-1] = empty 
+    ret = Game(solution, empty)
+    for i in range(moves):
+        try:
+            ret.move(direction_enum[randint(0, 3)])
+        except: 
+            pass
+    return ret
 
 
 def uniform_cost_search(game: Game):
@@ -111,8 +127,10 @@ if __name__=='__main__':
     # game = Game([['7', '1', '2'], ['4', '8', '5'], ['6', '3', '\u25a1']], empty='\u25a1')
 
     # depth 24: uniform(17.388 seconds), misplaced_tile (1.145 seconds), manhattan (0.129 seconds)
-    game = Game([['\u25a1', '7', '2'], ['4', '6', '1'], ['3', '5', '8']], empty='\u25a1')
+    # game = Game([['\u25a1', '7', '2'], ['4', '6', '1'], ['3', '5', '8']], empty='\u25a1')
 
+    # Random game: size, empty char, number of moves
+    game = random_puzzle(3, '\u25a1', 1000)
     
     start_time = time()
 
