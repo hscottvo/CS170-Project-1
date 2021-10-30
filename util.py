@@ -23,5 +23,11 @@ class Direction(Enum):
     RIGHT = (0, 1)
     LEFT = (0, -1)
 
+
+class Searches(Enum):
+    uniform = 0
+    misplaced = 1
+    manhattan = 2
+
 if __name__ == '__main__':
     pass
