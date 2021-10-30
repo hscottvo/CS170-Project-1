@@ -1,0 +1,52 @@
+{
+    "depth 0": {
+        "uniform depth": "0.0 seconds",
+        "misplaced tile": "0.0 seconds",
+        "manhattan distance": "0.0 seconds"
+    },
+    "depth 1": {
+        "uniform depth": "0.0 seconds",
+        "misplaced tile": "0.0 seconds",
+        "manhattan distance": "0.0 seconds"
+    },
+    "depth 2": {
+        "uniform depth": "0.001 seconds",
+        "misplaced tile": "0.0 seconds",
+        "manhattan distance": "0.0 seconds"
+    },
+    "depth 4": {
+        "uniform depth": "0.004 seconds",
+        "misplaced tile": "0.001 seconds",
+        "manhattan distance": "0.001 seconds"
+    },
+    "depth 8": {
+        "uniform depth": "0.021 seconds",
+        "misplaced tile": "0.002 seconds",
+        "manhattan distance": "0.001 seconds"
+    },
+    "depth 12": {
+        "uniform depth": "0.134 seconds",
+        "misplaced tile": "0.009 seconds",
+        "manhattan distance": "0.003 seconds"
+    },
+    "depth 16": {
+        "uniform depth": "0.855 seconds",
+        "misplaced tile": "0.047 seconds",
+        "manhattan distance": "0.017 seconds"
+    },
+    "depth 20": {
+        "uniform depth": "3.829 seconds",
+        "misplaced tile": "0.217 seconds",
+        "manhattan distance": "0.033 seconds"
+    },
+    "depth 24": {
+        "uniform depth": "11.002 seconds",
+        "misplaced tile": "1.522 seconds",
+        "manhattan distance": "0.179 seconds"
+    },
+    "depth 31": {
+        "uniform depth": "14.02 seconds",
+        "misplaced tile": "13.504 seconds",
+        "manhattan distance": "0.785 seconds"
+    }
+}
