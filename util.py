@@ -4,6 +4,8 @@ from enum import Enum
 
 
 def manhattan_dist(point_a, point_b):
+    '''Takes in 2 tuples. Returns int
+    returns the manhattan distance between the point and its final coordinate'''
     return (abs(point_a[0] - point_b[0]) + abs(point_a[1] - point_b[1]))
 
 

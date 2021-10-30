@@ -4,7 +4,6 @@ from util import Direction, PrioGame, Searches
 from time import time
 from random import randint
 import json
-import os
 
 timeout_time = 1000
 direction_enum = list(Direction)
@@ -12,6 +11,7 @@ search_names = ["Uniform Cost Search", "Misplaced A-Star", "Manhattan A-Star"]
 
 
 def random_puzzle(size: int, empty: str, moves: int) -> Game:
+    '''Takes in game size, empty tile char, how many moves to run. Returns randomized game.'''
     solution = []
     for i in range(1, size+1):
         solution.append([str(j + size*(i-1)) for j in range(1, size+1)]) 
@@ -26,6 +26,8 @@ def random_puzzle(size: int, empty: str, moves: int) -> Game:
 
 
 def uniform_cost_search(game: Game):
+    '''Takes in game object, returns solved game.
+        Runs uniform-cost search'''
     start_time = time()
     move_queue = Queue()
     move_queue.put(game)
@@ -51,6 +53,8 @@ def uniform_cost_search(game: Game):
 
 
 def misplaced_tile_search(game: Game):
+    '''Takes in game state, returns solved game.
+        Runs A-Star search with number of misplaced tiles as heuristic.'''
     start_time = time()
     move_queue = PriorityQueue()
     move_queue.put(PrioGame(game.misplaced_tile_heuristic(), game))
@@ -76,6 +80,8 @@ def misplaced_tile_search(game: Game):
   
 
 def manhattan_search(game: Game):
+    '''Takes in game object, returns solved game.
+        Runs A-Star using Manhattan distance as heuristic'''
     start_time = time()
     move_queue = PriorityQueue()
     move_queue.put(PrioGame(game.manhattan_heuristic(), game))
@@ -101,6 +107,8 @@ def manhattan_search(game: Game):
 
 
 def average_time(game: Game, times: dict, depth: int) -> None:
+    '''Takes in game object, time dictionary, and input puzzle depth, returns None.
+        Runs search 10 times and averages the time to run'''
     print(f'With depth {depth}: ')
     time_list_uniform = []
     time_list_tile = []
@@ -123,7 +131,9 @@ def average_time(game: Game, times: dict, depth: int) -> None:
     times[f'depth {depth}']['manhattan distance'] = ' '.join([str(round(sum(time_list_manhattan)/len(time_list_manhattan), 3)), 'seconds'])
 
 
+# https://docs.python.org/3/library/json.html
 def log_times():
+    '''Takes no input, returns None. Runs all searches at various depths, stores average time for each combination'''
     times = {}
 
     depth = 0
@@ -172,7 +182,9 @@ def log_times():
         json.dump(times, outfile, indent=4)
     
 
+# https://www.pythontutorial.net/python-basics/python-read-text-file/
 def run_input_game(empty, search):
+    '''Takes in a character for the empty tile and the index of search type, returns None. Runs specified search & gamestate'''
     with open('input.txt') as f:
         lines = f.readlines()
     new_lines = []
@@ -207,11 +219,13 @@ def run_input_game(empty, search):
 
 if __name__=='__main__':
 
-    # log_times() 
+
+    # Run this to check all searches with various depths
+    # log_times()
+     
+    # Run this to take in the gamestate from input.txt, with the specified search. 
+    # Formatted ({empty tile string/char}, Searches.{uniform || misplaced || manhattan}) 
     run_input_game('\u25a1', Searches.manhattan)
-    # game = Game([['\u25a1', '7', '2'], ['4', '6', '1'], ['3', '5', '8']], empty='\u25a1')   
-    # solved_game = manhattan_search(game)
-    # solved_game.print_path()
     
 
 
