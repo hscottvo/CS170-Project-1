@@ -28,14 +28,18 @@ def random_puzzle(size: int, empty: str, moves: int) -> Game:
 def uniform_cost_search(game: Game):
     '''Takes in game object, returns solved game.
         Runs uniform-cost search'''
+    count = 0
     start_time = time()
     move_queue = Queue()
     move_queue.put(game)
+    max_queue_size = 1
     dupes = {game.string()}
     while not move_queue.empty():
+        max_queue_size = max(max_queue_size, move_queue.qsize())
         new_game = move_queue.get()
+        count += 1
         if new_game.check_solution():
-            return new_game
+            return new_game, max_queue_size, count
         for dir in Direction:
             try:
                 move_game = new_game.copy_move(dir)
@@ -55,15 +59,19 @@ def uniform_cost_search(game: Game):
 def misplaced_tile_search(game: Game):
     '''Takes in game state, returns solved game.
         Runs A-Star search with number of misplaced tiles as heuristic.'''
+    count = 0
     start_time = time()
     move_queue = PriorityQueue()
     move_queue.put(PrioGame(game.misplaced_tile_heuristic(), game))
+    max_queue_size = 1
     dupes = {game.string()}
     while not move_queue.empty():
+        max_queue_size = max(max_queue_size, move_queue.qsize())
         prio_game = move_queue.get()
+        count += 1
         new_game = prio_game.item
         if new_game.check_solution():
-            return new_game
+            return new_game, max_queue_size, count
         for dir in Direction:
             try:
                 move_game = new_game.copy_move(dir)
@@ -82,15 +90,19 @@ def misplaced_tile_search(game: Game):
 def manhattan_search(game: Game):
     '''Takes in game object, returns solved game.
         Runs A-Star using Manhattan distance as heuristic'''
+    count = 0
     start_time = time()
     move_queue = PriorityQueue()
     move_queue.put(PrioGame(game.manhattan_heuristic(), game))
+    max_queue_size = 1
     dupes = {game.string()}
     while not move_queue.empty():
+        max_queue_size = max(max_queue_size, move_queue.qsize())
         prio_game = move_queue.get()
+        count += 1
         new_game = prio_game.item
         if new_game.check_solution():
-            return new_game
+            return new_game, max_queue_size, count
         for dir in Direction:
             try:
                 move_game = new_game.copy_move(dir)
@@ -109,26 +121,37 @@ def manhattan_search(game: Game):
 def average_time(game: Game, times: dict, depth: int) -> None:
     '''Takes in game object, time dictionary, and input puzzle depth, returns None.
         Runs search 10 times and averages the time to run'''
-    print(f'With depth {depth}: ')
     time_list_uniform = []
     time_list_tile = []
     time_list_manhattan = []
     for i in range(0, 10):
         start_time = time()
-        uniform_cost_search(game)
+        _, max_uni_size, uni_nodes_expanded = uniform_cost_search(game)
         time_list_uniform.append(time() - start_time)
 
         start_time = time()
-        misplaced_tile_search(game)
+        _, max_misplaced_size, misplaced_nodes_expanded = misplaced_tile_search(game)
         time_list_tile.append(time() - start_time)
 
         start_time = time()
-        manhattan_search(game)
+        _, max_manhattan_size, manhattan_nodes_expanded = manhattan_search(game)
         time_list_manhattan.append(time() - start_time)
-    times[f'depth {depth}'] = {}
-    times[f'depth {depth}']['uniform depth'] = ' '.join([str(round(sum(time_list_uniform)/len(time_list_uniform), 3)), 'seconds'])
-    times[f'depth {depth}']['misplaced tile'] = ' '.join([str(round(sum(time_list_tile)/len(time_list_tile), 3)), 'seconds'])
-    times[f'depth {depth}']['manhattan distance'] = ' '.join([str(round(sum(time_list_manhattan)/len(time_list_manhattan), 3)), 'seconds'])
+    times[f'depth {depth}'] = {} 
+
+    uniform_dict = {'time (seconds)': round(sum(time_list_uniform)/len(time_list_uniform), 3), 
+                    'max size': max_uni_size, 
+                    'nodes expanded': uni_nodes_expanded}
+    times[f'depth {depth}']['uniform cost'] = uniform_dict
+
+    misplaced_dict = {'time (seconds)': round(sum(time_list_tile)/len(time_list_tile), 3), 
+                      'max size': max_misplaced_size,
+                      'nodes expanded': misplaced_nodes_expanded}
+    times[f'depth {depth}']['misplaced tile'] = misplaced_dict
+
+    manhattan_dict = {'time (seconds)': round(sum(time_list_manhattan)/len(time_list_manhattan), 3), 
+                      'max size': max_manhattan_size,
+                      'nodes expanded': manhattan_nodes_expanded}
+    times[f'depth {depth}']['manhattan distance'] = manhattan_dict
 
 
 # https://docs.python.org/3/library/json.html
@@ -177,7 +200,7 @@ def log_times():
     average_time(game, times, depth)
 
     
-    print(json.dumps(times, indent=4))
+    # print(json.dumps(times, indent=4))
     with open('search_logs.json', 'w') as outfile:
         json.dump(times, outfile, indent=4)
     
@@ -196,20 +219,20 @@ def run_input_game(empty, search):
         print("With Uniform-Cost Search:")
         # uniform
         start = time()
-        new_game = uniform_cost_search(game)
+        new_game, _, _ = uniform_cost_search(game)
         new_game.print_path()
         print(f"Took {round(time() - start, 3)} seconds")
     elif search.value == 1:
         print("With Misplaced Tile A-Star:")
         # misplaced
         start = time()
-        new_game = misplaced_tile_search(game)
+        new_game, _, _ = misplaced_tile_search(game)
         new_game.print_path()
         print(f"Took {round(time() - start, 3)} seconds")
     elif search.value == 2:
         print("With Manhattan Distance A-Star")
         start = time()
-        new_game = manhattan_search(game)
+        new_game, _, _ = manhattan_search(game)
         new_game.print_path()
         print(f"Took {round(time() - start, 3)} seconds")
     else:
@@ -221,11 +244,11 @@ if __name__=='__main__':
 
 
     # Run this to check all searches with various depths
-    # log_times()
+    log_times()
      
     # Run this to take in the gamestate from input.txt, with the specified search. 
     # Formatted ({empty tile string/char}, Searches.{uniform || misplaced || manhattan}) 
-    run_input_game('\u25a1', Searches.manhattan)
+    # run_input_game('\u25a1', Searches.manhattan)
     
 
 
