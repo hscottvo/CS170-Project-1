@@ -1,52 +1,172 @@
 {
     "depth 0": {
-        "uniform depth": "0.0 seconds",
-        "misplaced tile": "0.0 seconds",
-        "manhattan distance": "0.0 seconds"
+        "uniform cost": {
+            "time (seconds)": 0.0,
+            "max size": 1,
+            "nodes expanded": 1
+        },
+        "misplaced tile": {
+            "time (seconds)": 0.0,
+            "max size": 1,
+            "nodes expanded": 1
+        },
+        "manhattan distance": {
+            "time (seconds)": 0.0,
+            "max size": 1,
+            "nodes expanded": 1
+        }
     },
     "depth 1": {
-        "uniform depth": "0.0 seconds",
-        "misplaced tile": "0.0 seconds",
-        "manhattan distance": "0.0 seconds"
+        "uniform cost": {
+            "time (seconds)": 0.0,
+            "max size": 5,
+            "nodes expanded": 3
+        },
+        "misplaced tile": {
+            "time (seconds)": 0.0,
+            "max size": 3,
+            "nodes expanded": 2
+        },
+        "manhattan distance": {
+            "time (seconds)": 0.0,
+            "max size": 3,
+            "nodes expanded": 2
+        }
     },
     "depth 2": {
-        "uniform depth": "0.001 seconds",
-        "misplaced tile": "0.0 seconds",
-        "manhattan distance": "0.0 seconds"
+        "uniform cost": {
+            "time (seconds)": 0.0,
+            "max size": 8,
+            "nodes expanded": 7
+        },
+        "misplaced tile": {
+            "time (seconds)": 0.0,
+            "max size": 3,
+            "nodes expanded": 3
+        },
+        "manhattan distance": {
+            "time (seconds)": 0.0,
+            "max size": 3,
+            "nodes expanded": 3
+        }
     },
     "depth 4": {
-        "uniform depth": "0.004 seconds",
-        "misplaced tile": "0.001 seconds",
-        "manhattan distance": "0.001 seconds"
+        "uniform cost": {
+            "time (seconds)": 0.001,
+            "max size": 30,
+            "nodes expanded": 35
+        },
+        "misplaced tile": {
+            "time (seconds)": 0.0,
+            "max size": 6,
+            "nodes expanded": 5
+        },
+        "manhattan distance": {
+            "time (seconds)": 0.0,
+            "max size": 6,
+            "nodes expanded": 5
+        }
     },
     "depth 8": {
-        "uniform depth": "0.021 seconds",
-        "misplaced tile": "0.002 seconds",
-        "manhattan distance": "0.001 seconds"
+        "uniform cost": {
+            "time (seconds)": 0.012,
+            "max size": 183,
+            "nodes expanded": 295
+        },
+        "misplaced tile": {
+            "time (seconds)": 0.001,
+            "max size": 16,
+            "nodes expanded": 19
+        },
+        "manhattan distance": {
+            "time (seconds)": 0.001,
+            "max size": 12,
+            "nodes expanded": 13
+        }
     },
     "depth 12": {
-        "uniform depth": "0.134 seconds",
-        "misplaced tile": "0.009 seconds",
-        "manhattan distance": "0.003 seconds"
+        "uniform cost": {
+            "time (seconds)": 0.088,
+            "max size": 1157,
+            "nodes expanded": 1948
+        },
+        "misplaced tile": {
+            "time (seconds)": 0.006,
+            "max size": 84,
+            "nodes expanded": 120
+        },
+        "manhattan distance": {
+            "time (seconds)": 0.002,
+            "max size": 28,
+            "nodes expanded": 37
+        }
     },
     "depth 16": {
-        "uniform depth": "0.855 seconds",
-        "misplaced tile": "0.047 seconds",
-        "manhattan distance": "0.017 seconds"
+        "uniform cost": {
+            "time (seconds)": 0.567,
+            "max size": 6425,
+            "nodes expanded": 12907
+        },
+        "misplaced tile": {
+            "time (seconds)": 0.032,
+            "max size": 389,
+            "nodes expanded": 620
+        },
+        "manhattan distance": {
+            "time (seconds)": 0.011,
+            "max size": 137,
+            "nodes expanded": 202
+        }
     },
     "depth 20": {
-        "uniform depth": "3.829 seconds",
-        "misplaced tile": "0.217 seconds",
-        "manhattan distance": "0.033 seconds"
+        "uniform cost": {
+            "time (seconds)": 2.38,
+            "max size": 17259,
+            "nodes expanded": 54398
+        },
+        "misplaced tile": {
+            "time (seconds)": 0.134,
+            "max size": 1517,
+            "nodes expanded": 2503
+        },
+        "manhattan distance": {
+            "time (seconds)": 0.021,
+            "max size": 255,
+            "nodes expanded": 385
+        }
     },
     "depth 24": {
-        "uniform depth": "11.002 seconds",
-        "misplaced tile": "1.522 seconds",
-        "manhattan distance": "0.179 seconds"
+        "uniform cost": {
+            "time (seconds)": 6.082,
+            "max size": 24054,
+            "nodes expanded": 136140
+        },
+        "misplaced tile": {
+            "time (seconds)": 0.765,
+            "max size": 7088,
+            "nodes expanded": 13616
+        },
+        "manhattan distance": {
+            "time (seconds)": 0.089,
+            "max size": 890,
+            "nodes expanded": 1578
+        }
     },
     "depth 31": {
-        "uniform depth": "14.02 seconds",
-        "misplaced tile": "13.504 seconds",
-        "manhattan distance": "0.785 seconds"
+        "uniform cost": {
+            "time (seconds)": 7.96,
+            "max size": 25133,
+            "nodes expanded": 181439
+        },
+        "misplaced tile": {
+            "time (seconds)": 7.274,
+            "max size": 24657,
+            "nodes expanded": 120373
+        },
+        "manhattan distance": {
+            "time (seconds)": 0.404,
+            "max size": 3701,
+            "nodes expanded": 6930
+        }
     }
 }
