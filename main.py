@@ -4,6 +4,7 @@ from util import Direction, PrioGame, Searches
 from time import time
 from random import randint
 import json
+import argparse
 
 timeout_time = 1000
 direction_enum = list(Direction)
@@ -155,7 +156,7 @@ def average_time(game: Game, times: dict, depth: int) -> None:
 
 
 # https://docs.python.org/3/library/json.html
-def log_times():
+def log_stats():
     '''Takes no input, returns None. Runs all searches at various depths, stores average time for each combination'''
     times = {}
 
@@ -244,7 +245,26 @@ if __name__=='__main__':
 
 
     # Run this to check all searches with various depths
-    log_times()
+    parser = argparse.ArgumentParser(description='Process some integers.')
+    parser.add_argument('-i', metavar=['input_file', 'search_type'], type=str, nargs=2,
+                        help='Use to take in an input puzzle file. \n usage: "main.py -i input_file search_type" \n\t1 for uniform cost, 2 for misplaced tile, 3 for Manhattan')
+    parser.add_argument("--log", action="store_true", 
+                        help="Runs all searches on all depths 10 times each, taking the average value for each. Saves time, max queue size, nodes expanded in search_logs.json")
+
+    args = parser.parse_args()
+    print(args)
+    if args.i != None and args.log:
+        print("Cannot take in input file while creating logs")
+        exit()
+    if args.i == None and not args.log:
+        print("Must choose one of \"-i\" and \"--logs\"")
+        exit()
+    if args.log:
+        print("Logging search stats...")
+        log_stats()
+    else: 
+        run_input_game('\u25a1', Searches(int(args.i[1])))
+
      
     # Run this to take in the gamestate from input.txt, with the specified search. 
     # Formatted ({empty tile string/char}, Searches.{uniform || misplaced || manhattan}) 
