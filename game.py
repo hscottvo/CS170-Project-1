@@ -1,5 +1,4 @@
 from util import *
-from copy import deepcopy
 
 
 class Game:
