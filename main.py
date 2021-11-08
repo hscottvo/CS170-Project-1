@@ -5,6 +5,7 @@ from time import time
 from random import randint
 import json
 import argparse
+import sys
 
 timeout_time = 1000
 direction_enum = list(Direction)
@@ -207,69 +208,98 @@ def log_stats():
     
 
 # https://www.pythontutorial.net/python-basics/python-read-text-file/
-def run_input_game(empty, search):
+def run_input_game(empty, search, input_file):
     '''Takes in a character for the empty tile and the index of search type, returns None. Runs specified search & gamestate'''
-    with open('input.txt') as f:
+    
+    with open(input_file) as f:
         lines = f.readlines()
     new_lines = []
     for i in lines:
-        new_lines.append(i.replace('0', empty).rstrip('\n').split())
-    
+        # new_lines.append(i.replace('0', empty).rstrip('\n').split())
+        temp = []
+        for j in i.split():
+            temp.append(j if j != '0' else empty)
+        new_lines.append(temp)
     game = Game(new_lines, empty)
     if search.value == 0:
         print("With Uniform-Cost Search:")
         # uniform
         start = time()
-        new_game, _, _ = uniform_cost_search(game)
+        new_game, size, nodes = uniform_cost_search(game)
         new_game.print_path()
         print(f"Took {round(time() - start, 3)} seconds")
+        print(f"Maximum queue size: {size} \nNodes expanded: {nodes}")
     elif search.value == 1:
         print("With Misplaced Tile A-Star:")
         # misplaced
         start = time()
-        new_game, _, _ = misplaced_tile_search(game)
+        new_game, size, nodes = misplaced_tile_search(game)
         new_game.print_path()
         print(f"Took {round(time() - start, 3)} seconds")
+        print(f"Maximum queue size: {size} \nNodes expanded: {nodes}")
     elif search.value == 2:
         print("With Manhattan Distance A-Star")
         start = time()
-        new_game, _, _ = manhattan_search(game)
+        new_game, size, nodes = manhattan_search(game)
         new_game.print_path()
         print(f"Took {round(time() - start, 3)} seconds")
+        print(f"Maximum queue size: {size} \nNodes expanded: {nodes}")
     else:
         print("Invalid Search Value")
         quit()
 
 
 if __name__=='__main__':
-
-
+    # run_input_game('\u25a1', Searches(2), 'sample_size_4.txt')
     # Run this to check all searches with various depths
     parser = argparse.ArgumentParser(description='Process some integers.')
     parser.add_argument('-i', metavar=['input_file', 'search_type'], type=str, nargs=2,
                         help='Use to take in an input puzzle file. \n usage: "main.py -i input_file search_type" \n\t1 for uniform cost, 2 for misplaced tile, 3 for Manhattan')
     parser.add_argument("--log", action="store_true", 
                         help="Runs all searches on all depths 10 times each, taking the average value for each. Saves time, max queue size, nodes expanded in search_logs.json")
+    parser.add_argument("-r", metavar=['num_moves', 'search_type'], type=int, nargs=2, 
+                        help='Use to generate a random game and run with search type. 1 for uniform cost, 2 for misplaced tile, 3 for Manhattan')
 
     args = parser.parse_args()
-    print(args)
-    if args.i != None and args.log:
+    if not len(sys.argv) > 1:
+        print("Usage: 'python3 main.py -h' for help ")
+    elif args.i != None and args.log:
         print("Cannot take in input file while creating logs")
         exit()
-    if args.i == None and not args.log:
-        print("Must choose one of \"-i\" and \"--logs\"")
-        exit()
-    if args.log:
+    elif args.r != None:
+        game = random_puzzle(3, '\u25a1', args.r[0])
+        if args.r[1] == 0:
+            print("With uniform cost search:")
+            game, size, nodes = uniform_cost_search(game)
+            game.print_path()
+            print(f"Maximum queue size: {size} \nNodes expanded: {nodes}")
+        elif args.r[1] == 1:
+            print("With misplaced tile heuristic: ")
+            game, size, nodes = misplaced_tile_search(game)
+            game.print_path()
+            print(f"Maximum queue size: {size} \nNodes expanded: {nodes}")
+        elif args.r[1] == 2:
+            print("With manhattan distance heuristic: ")
+            game, size, nodes = manhattan_search(game)
+            game.print_path()
+            print(f"Maximum queue size: {size} \nNodes expanded: {nodes}")
+        else: 
+            print("Invalid search type")
+            exit()
+    elif args.log:
         print("Logging search stats...")
         log_stats()
+    elif args.i == None and not args.log:
+        print("Must choose one of \"-i\" and \"--logs\"")
+        exit()
     else: 
-        run_input_game('\u25a1', Searches(int(args.i[1])))
+        run_input_game('\u25a1', Searches(int(args.i[1])), args.i[0])
 
      
     # Run this to take in the gamestate from input.txt, with the specified search. 
     # Formatted ({empty tile string/char}, Searches.{uniform || misplaced || manhattan}) 
     # run_input_game('\u25a1', Searches.manhattan)
     
-
+    
 
     
