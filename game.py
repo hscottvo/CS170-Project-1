@@ -148,11 +148,13 @@ class Game:
 
 if __name__ == "__main__": 
     empty_char = '\u25a1'
-    user_input = [['1', '2', '3', '4'], ['5', '6', '7', '8'], ['9', '10', '11', '12'], ['13', '14', '15', empty_char]]
+    user_input = [['1', '2', '3', '4'], ['5', '6', '7', '8'], ['9', '10', '11', '12'], ['13', '14', empty_char, '15']]
     x = Game(user_input, empty_char)
     # y = x.game_state.deepcopy()
     x.print()
     print(x.string())
+    print(x.check_solution())
+    print(x.manhattan_heuristic())
 
 
 
