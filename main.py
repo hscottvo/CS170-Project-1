@@ -6,6 +6,7 @@ from random import randint
 import json
 import argparse
 import sys
+from argparse import RawTextHelpFormatter
 
 timeout_time = 1000
 direction_enum = list(Direction)
@@ -252,22 +253,22 @@ def run_input_game(empty, search, input_file):
 if __name__=='__main__':
     # run_input_game('\u25a1', Searches(2), 'sample_size_4.txt')
     # Run this to check all searches with various depths
-    parser = argparse.ArgumentParser(description='Process some integers.')
+    parser = argparse.ArgumentParser(description='Decide what to do with the search program.', formatter_class=RawTextHelpFormatter)
+    
     parser.add_argument('-i', metavar=['input_file', 'search_type'], type=str, nargs=2,
-                        help='Use to take in an input puzzle file. \n usage: "main.py -i input_file search_type" \n\t1 for uniform cost, 2 for misplaced tile, 3 for Manhattan')
-    parser.add_argument("--log", action="store_true", 
-                        help="Runs all searches on all depths 10 times each, taking the average value for each. Saves time, max queue size, nodes expanded in search_logs.json")
-    parser.add_argument("-r", metavar=['num_moves', 'search_type'], type=int, nargs=2, 
-                        help='Use to generate a random game and run with search type. 1 for uniform cost, 2 for misplaced tile, 3 for Manhattan')
+                        help='Use to take in an input puzzle file. \nusage: "main.py -i {input_file} {search_type}"\n\nInputs: \n\t0 for uniform cost\n\t1 for misplaced tile\n\t2 for Manhattan')
+    parser.add_argument("-l", action="store_true", 
+                        help="Runs all searches on all depths 10 times each, taking the average value for each. \n\tSaves time, max queue size, nodes expanded in search_logs.json")
+    parser.add_argument("-r", metavar=['num_moves', 'search_type', 'game_size'], type=int, nargs=3, 
+                        help='Use to generate a random game and run with search type.\n\nInputs: \n\t0 for uniform cost\n\t1 for misplaced tile\n\t2 for Manhattan')
 
     args = parser.parse_args()
-    if not len(sys.argv) > 1:
+    args_str = ''.join(sys.argv)
+    if args_str.count('-') != 1:
         print("Usage: 'python3 main.py -h' for help ")
-    elif args.i != None and args.log:
-        print("Cannot take in input file while creating logs")
         exit()
     elif args.r != None:
-        game = random_puzzle(3, '\u25a1', args.r[0])
+        game = random_puzzle(args.r[2], '\u25a1', args.r[0])
         if args.r[1] == 0:
             print("With uniform cost search:")
             game, size, nodes = uniform_cost_search(game)
@@ -286,7 +287,7 @@ if __name__=='__main__':
         else: 
             print("Invalid search type")
             exit()
-    elif args.log:
+    elif args.l:
         print("Logging search stats...")
         log_stats()
     elif args.i == None and not args.log:
